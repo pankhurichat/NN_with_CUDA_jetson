@@ -32,8 +32,6 @@ vector<float> loadVector(string filename,int size)
     return v;
 }
 
-// One block per sample, one thread per output neuron.
-// Same math as the serial dense() -- only the parallel mapping changes.
 __global__
 void denseKernelBatch(
         float *W, float *b, float *X, float *Z,
@@ -94,7 +92,6 @@ int main(int argc, char** argv)
 
     vector<float> logits(BATCH*OUTPUT_SIZE);
 
-    // How many times to repeat the whole batch, so total work == 100000 samples
     int NUM_RUNS = 100000 / BATCH;
     if(NUM_RUNS < 1) NUM_RUNS = 1;
 
